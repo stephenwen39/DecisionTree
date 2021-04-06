@@ -1,5 +1,5 @@
 import math
-
+'''
 A = [[0,0,0,0,0],
      [0,0,0,1,0],
      [1,0,0,0,1],
@@ -12,41 +12,44 @@ A = [[0,0,0,0,0],
      [2,1,1,0,1],
      [0,1,1,1,1],
      [1,1,0,1,1]]
-     
-def entropy(Y, N):
+'''
+
+def entropy(Y, N, Z):
   if Y == 0:
-    return -(N/(Y+N) * math.log(N/(Y+N),2))
+    return 0
   elif N == 0:
-    return -(Y/(Y+N) * math.log(Y/(Y+N),2))
-  else:
+    return 0
+  elif Z == 0:
     return -(Y/(Y+N) * math.log(Y/(Y+N),2) + 
             N/(Y+N) * math.log(N/(Y+N),2))
+  else:
+    return -(Y/(Y+N+Z) * math.log(Y/(Y+N+Z),2) + 
+            N/(Y+N+Z) * math.log(N/(Y+N+Z),2) +
+            Z/(Y+N+Z) * math.log(Z/(Y+N+Z),2))
     
 def count(atts_index, num_of_clasA, array):
 
-  if num_of_clasA == 3:
-    b_c3 = [0,0,0]
+  if num_of_clasA == 3: #如果元素種類為3個
+    b_c = [0,0,0] #就建構一個三元素的陣列
     for i in array:
-      if i[atts_index] == 0:
-        b_c3[0] += 1
+      if i[atts_index] == 0: #依據當前的column來跑
+        b_c[0] += 1
       elif i[atts_index] == 1:
-        b_c3[1] += 1
+        b_c[1] += 1
       else:
-        b_c3[2] += 1
-    return b_c3
+        b_c[2] += 1
 
-  elif num_of_clasA == 2:
-    b_c2 = [0,0]
+  elif num_of_clasA == 2: #分不同case
+    b_c = [0,0]
     for i in array:
       if i[atts_index] == 0:
-        b_c2[0] += 1
+        b_c[0] += 1
       else:
-        b_c2[1] += 1
-    return b_c2
+        b_c[1] += 1
 
   else:
-    b_c1 = [len(array)]
-    return b_c1
+    b_c = [len(array)]
+  return b_c
     
 def weight(atts_index, num_of_clasA, array): #計算entropy with branch weight
   
@@ -62,7 +65,7 @@ def weight(atts_index, num_of_clasA, array): #計算entropy with branch weight
         else:
           clas[1] += 1
     #print(type(ans_),type(b_c),type(array),b_c[j])
-    ans_.append(b_c[j]/len(array)*(entropy(clas[0],clas[1]))) #計算entropy with branch weight
+    ans_.append(b_c[j]/len(array)*(entropy(clas[0],clas[1],0))) #計算entropy with branch weight
   return ans_
   
 def find(array, parent_entropy):
@@ -79,3 +82,9 @@ def find(array, parent_entropy):
     ans.append(parent_entropy - sum(weight(i,length,array))) #父節點減去子節點的總和，總共會有四個，因為有四個屬性
   return ans #回傳gainration
   
+'''
+print(answer[0]/entropy(5,3,4))
+print(answer[1]/entropy(3,5,4))
+print(answer[2]/entropy(6,6,0))
+print(answer[3]/entropy(7,5,0))
+'''
