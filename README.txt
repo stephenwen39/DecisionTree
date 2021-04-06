@@ -1,4 +1,5 @@
 THIS IS A MVP
 
-full of bug and it can just return basic answer
-still need a lot of optimization
+it can just return root of decision tree
+still need a lot of optimization 
+and I'll make it general for any input & any node in every branch in the future. :D
