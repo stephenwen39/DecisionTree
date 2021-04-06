@@ -22,7 +22,7 @@ def entropy(Y, N):
     return -(Y/(Y+N) * math.log(Y/(Y+N),2) + 
             N/(Y+N) * math.log(N/(Y+N),2))
     
- def count(atts_index, num_of_clasA, array):
+def count(atts_index, num_of_clasA, array):
 
   if num_of_clasA == 3:
     b_c3 = [0,0,0]
