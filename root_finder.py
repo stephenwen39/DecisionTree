@@ -29,17 +29,17 @@ def entropy(Y, N, Z):
     
 def count(atts_index, num_of_clasA, array):
 
-  if num_of_clasA == 3: #如果元素種類為3個
-    b_c = [0,0,0] #就建構一個三元素的陣列
+  if num_of_clasA == 3: #if the number of element is three
+    b_c = [0,0,0] #create a list with 3 elements
     for i in array:
-      if i[atts_index] == 0: #依據當前的column來跑
+      if i[atts_index] == 0: #processing in current column
         b_c[0] += 1
       elif i[atts_index] == 1:
         b_c[1] += 1
       else:
         b_c[2] += 1
 
-  elif num_of_clasA == 2: #分不同case
+  elif num_of_clasA == 2: #case by case
     b_c = [0,0]
     for i in array:
       if i[atts_index] == 0:
@@ -51,35 +51,35 @@ def count(atts_index, num_of_clasA, array):
     b_c = [len(array)]
   return b_c
     
-def weight(atts_index, num_of_clasA, array): #計算entropy with branch weight
+def weight(atts_index, num_of_clasA, array): #entropy with branch weight
   
   ans_ = []
-  b_c = count(atts_index, num_of_clasA, array) #計算每個atts出現的次數
+  b_c = count(atts_index, num_of_clasA, array) #coculate the number of attributes
 
-  for j in range(0,num_of_clasA): #跑遍所有的atts種類數量，在這個case可能是3或2
-    clas = [0,0] #這個陣列用來裝yes與no的個數
-    for i in array: #對所有資料進行「如果用這個屬性作為樹根，下面會有多少yes與no的計算
+  for j in range(0,num_of_clasA): #for every single attributes value
+    clas = [0,0] #list For Coculate The Number Of YES and NO
+    for i in array: #對所有資料進行，如果用這個屬性作為樹根，下面會有多少yes與no的計算
       if i[atts_index] == j:
         if i[4] == 0:
           clas[0] += 1
         else:
           clas[1] += 1
     #print(type(ans_),type(b_c),type(array),b_c[j])
-    ans_.append(b_c[j]/len(array)*(entropy(clas[0],clas[1],0))) #計算entropy with branch weight
+    ans_.append(b_c[j]/len(array)*(entropy(clas[0],clas[1],0))) #entropy with branch weight
   return ans_
   
 def find(array, parent_entropy):
   ans = []
-  for i in range(0,4): #對所有的column
+  for i in range(0,4): #forAllcolumn
     cunt = []
-    for j in array: #計算個別column出現的attributes種類數量
+    for j in array: #AttributesNumberPerColumn
       
       if j[i] not in cunt:
         cunt.append(j[i])
     
-    length = len(cunt) #len(cunt)是代表atts種類數量
+    length = len(cunt) #len(cunt)is theNumberOfAttributes
     
-    ans.append(parent_entropy - sum(weight(i,length,array))) #父節點減去子節點的總和，總共會有四個，因為有四個屬性
+    ans.append(parent_entropy - sum(weight(i,length,array))) #ParentNode - sum(ChildNode), 4 inTotal
   return ans #回傳gainration
   
 '''
